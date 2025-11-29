@@ -1,5 +1,4 @@
-use bevy::prelude::*;
-
+use bevy::{prelude::*, window::WindowResolution};
 #[derive(Component)]
 struct Car {
     color: String,
@@ -46,7 +45,14 @@ fn honk_cars(time: Res<Time>, mut timer: ResMut<HonkTimer>, query: Query<&Car>) 
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "Car Parking Simulator".to_string(),
+                resolution: WindowResolution::new(3000, 3000).with_scale_factor_override(1.0),
+                ..default()
+            }),
+            ..default()
+        }))
         .add_plugins(CarPlugin)
         .run();
 }
